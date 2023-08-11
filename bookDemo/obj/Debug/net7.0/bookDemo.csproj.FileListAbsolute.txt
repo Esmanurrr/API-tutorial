@@ -31,3 +31,7 @@ C:\Users\esman\Desktop\projects\Applications\bookDemo\obj\Debug\net7.0\refint\bo
 C:\Users\esman\Desktop\projects\Applications\bookDemo\obj\Debug\net7.0\bookDemo.pdb
 C:\Users\esman\Desktop\projects\Applications\bookDemo\obj\Debug\net7.0\bookDemo.genruntimeconfig.cache
 C:\Users\esman\Desktop\projects\Applications\bookDemo\obj\Debug\net7.0\ref\bookDemo.dll
+C:\Users\esman\Desktop\projects\Applications\bookDemo\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\esman\Desktop\projects\Applications\bookDemo\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\esman\Desktop\projects\Applications\bookDemo\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\esman\Desktop\projects\Applications\bookDemo\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
