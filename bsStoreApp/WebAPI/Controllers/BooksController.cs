@@ -10,10 +10,10 @@ namespace WebAPI.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly RepositoryContext _context;
-        public BooksController(RepositoryContext context)
+        private readonly RepositoryManager _manager;
+        public BooksController(RepositoryManager manager)
         {
-            _context = context;
+            _manager = manager;
         }
 
         [HttpGet]
@@ -21,11 +21,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var books = _context.Books.ToList();
-                if (!books.Any()) // check books
-                {
-                    return NotFound("No books found"); // if its null, return 404
-                }
+                var books = _manager.Book.GetAllBooks(false);
                 return Ok(books);
             }
             catch (Exception ex)
@@ -40,7 +36,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var book = _context.Books.Where(x => x.Id == id).SingleOrDefault();
+                var book = _manager.Book.GetOneBookById(id, false);
                 if (book is null)
                     return NotFound();
 
@@ -61,8 +57,8 @@ namespace WebAPI.Controllers
                 if(book is null)
                     return BadRequest();//400
 
-                _context.Books.Add(book);
-                _context.SaveChanges();
+                _manager.Book.CreateOneBook(book);
+                _manager.Save();
 
                 return StatusCode(201,book);
 
@@ -79,7 +75,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var entity = _context.Books.Where(b => b.Id.Equals(id)).SingleOrDefault();//selected book
+                var entity = _manager.Book.GetOneBookById(id, true);//selected book
 
                 //check book
                 if (book is null)
@@ -92,7 +88,7 @@ namespace WebAPI.Controllers
                 entity.Title = book.Title;
                 entity.Price = book.Price;//we will use mapper then
                 //_context.Books.Update(book); it is also correct
-                _context.SaveChanges();
+                _manager.Save();
 
                 return Ok(book);
             }
@@ -108,7 +104,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var entity = _context.Books.Find(id);
+                var entity = _manager.Book.GetOneBookById(id,false);
                 if(entity is null)
                     return NotFound(new
                     {
@@ -116,8 +112,8 @@ namespace WebAPI.Controllers
                         message = $"Book with id:{id} could not found."
                     });//404
 
-                _context.Books.Remove(entity);
-                _context.SaveChanges();
+                _manager.Book.Delete(entity);
+                _manager.Save();
                 return StatusCode(204);
 
             }
@@ -133,13 +129,14 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var entity = _context.Books.Where(b => b.Id.Equals(id)).SingleOrDefault();
+                var entity = _manager.Book.GetOneBookById(id,true);
 
                 if (entity is null)
                     return NotFound();
 
                 bookPatch.ApplyTo(entity);
-                _context.SaveChanges();
+                _manager.Book.Update(entity);
+                _manager.Save();
                 return NoContent();        
 
             }
